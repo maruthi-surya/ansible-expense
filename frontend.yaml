@@ -7,11 +7,11 @@
      name: nginx
      state: present
 
-  - name: start and enable nginx
-    ansible.builtin.service:
-      name: nginx
-      state: started
-      enabled: true
+  # - name: start and enable nginx
+  #   ansible.builtin.service:
+  #     name: nginx
+  #     state: started
+  #     enabled: true
 
   - name: remove conent default content
     ansible.builtin.command: rm -rf /usr/share/nginx/html/*
@@ -33,6 +33,6 @@
   - name: start and enable nginx
     ansible.builtin.service:
       name: nginx
-      state: restarted
-
+      state: started
+      enabled: true
 
