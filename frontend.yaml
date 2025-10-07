@@ -1,0 +1,38 @@
+- name: install nginx
+  hosts: frontend
+  become: yes
+  tasks:
+  - name: installing nginx
+    ansible.builtin.package:
+     name: nginx
+     state: present
+
+  - name: start and enable nginx
+    ansible.builtin.service:
+     name: nginx
+     state: started
+     enabled: true
+
+  - name: remove conent default content
+    ansible.builtin.command: rm -rf /usr/share/nginx/html/*
+
+  - name: download content
+    ansible.builtin.shell: curl -o /tmp/frontend.zip https://expense-joindevops.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip
+    
+  - name: unzip contents
+    ansible.builtin.unarchive:
+     src: /tmp/frontend.zip
+     dest: /usr/share/nginx/html
+     remote_src: yes
+
+  - name: copy contents
+    ansible.builtin.copy:
+     src: nginx.service
+     dest: /etc/nginx/default.d/expense.conf
+
+  - name: start and enable nginx
+    ansible.builtin.service:
+     name: nginx
+     state: restarted
+
+
