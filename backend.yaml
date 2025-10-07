@@ -1,4 +1,4 @@
-- nme: backend deployment
+- name: backend deployment
   hosts: backend
   become: yes
   tasks:
@@ -10,60 +10,60 @@
 
   - name: install nodejs
     ansible.builtin.package:
-     name: nodejs
-     state: present
+      name: nodejs
+      state: present
 
   - name: creating expense user
     ansible.builtin.user:
-     name: expense
-     comment: creating user
+      name: expense
+      comment: creating user
 
   - name: creating diretory app
     ansible.builtin.file:
-     name: /app
-     state: directory   
+      name: /app
+      state: directory   
 
   - name: download zip file
     ansible.builtin.shell: curl -o /tmp/backend.zip https://expense-joindevops.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
 
   - name: unzip directory
     ansible.builtin.unarchive:
-     src: /tmp/backend.zip
-     dest: /app  
-     remote_src: yes
+      src: /tmp/backend.zip
+      dest: /app  
+      remote_src: yes
 
   - name: change directory
     ansible.builtin.command: cd app
 
   - name: install npm package
     ansible.builtin.package:
-     name: npm
-     state: present  
+      name: npm
+      state: present  
 
   - name: copy backend service
     ansible.builtin.copy:
-     src: backend.service
-     dest: /etc/systemd/system/backend.service
+      src: backend.service
+      dest: /etc/systemd/system/backend.service
 
   - name: start deamon reloading
     ansible.builtin.service:
-     daemon-reload: true
+      daemon-reload: true
 
   - name: start backend service
     ansible.builtin.service:
-     name: backend
-     state: started
-     enabled: true
+      name: backend
+      state: started
+      enabled: true
 
   - name: install mysql tool
     ansible.builtin.package:
-     name: mysql
-     state: present
+      name: mysql
+      state: present
 
   - name: load records into mysql debug
     ansible.builtin.shell: mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -pExpenseApp@1 < /app/schema/backend.sql
 
   - name: restart backend service
     ansible.builtin.service:
-     name: backend
-     state: restarted  
+      name: backend
+      state: restarted  

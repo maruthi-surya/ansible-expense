@@ -9,9 +9,9 @@
 
   - name: start and enable nginx
     ansible.builtin.service:
-     name: nginx
-     state: started
-     enabled: true
+      name: nginx
+      state: started
+      enabled: true
 
   - name: remove conent default content
     ansible.builtin.command: rm -rf /usr/share/nginx/html/*
@@ -21,18 +21,18 @@
     
   - name: unzip contents
     ansible.builtin.unarchive:
-     src: /tmp/frontend.zip
-     dest: /usr/share/nginx/html
-     remote_src: yes
+      src: /tmp/frontend.zip
+      dest: /usr/share/nginx/html
+      remote_src: yes
 
   - name: copy contents
     ansible.builtin.copy:
-     src: nginx.service
-     dest: /etc/nginx/default.d/expense.conf
+      src: nginx.service
+      dest: /etc/nginx/default.d/expense.conf
 
   - name: start and enable nginx
     ansible.builtin.service:
-     name: nginx
-     state: restarted
+      name: nginx
+      state: restarted
 
 
