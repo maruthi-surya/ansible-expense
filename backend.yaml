@@ -32,13 +32,12 @@
       dest: /app  
       remote_src: yes
 
-  - name: change directory
-    ansible.builtin.command: cd app
+  # - name: change directory
+  #   ansible.builtin.command: cd /app
 
   - name: install npm package
-    ansible.builtin.package:
-      name: npm
-      state: present  
+    comminty.general.npm:
+      path: /app 
 
   - name: copy backend service
     ansible.builtin.copy:
